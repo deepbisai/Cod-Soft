@@ -1,0 +1,59 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <limits>
+#include <thread>
+#include <chrono>
+#include <cmath>
+
+using namespace std;
+
+void pause(int milliseconds = 700) {
+    this_thread::sleep_for(chrono::milliseconds(milliseconds));
+}
+
+int main() {
+    srand(static_cast<unsigned int>(time(0)));
+
+    int secretNumber = rand() % 9 + 1;
+    int guess;
+
+    cout << "=== Welcome to the Number Guessing Game ===\n";
+    cout << "I'm thinking of a number between 1 and 9...\n";
+    pause();
+
+    while (true) {
+        cout << "\nYour guess: ";
+        cin >> guess;
+
+        if (cin.fail() || guess < 1 || guess > 9) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Please enter a valid number between 1 and 9.\n";
+        } else {
+            break;
+        }
+    }
+
+    pause();
+    cout << "\nLet's see...\n";
+    pause(1000);
+
+    if (guess == secretNumber) {
+        cout << "You guessed it correct!\n";
+    } else {
+        int diff = abs(secretNumber - guess);
+        if (diff >= 4) {
+            cout << "That was quite far off.\n";
+        } else if (guess < secretNumber) {
+            cout << "Almost! Your guess is a bit too low.\n";
+        } else {
+            cout << "Close! But your guess is slightly too high.\n";
+        }
+    }
+
+    cout << "\nYou guessed: " << guess
+         << "\nThe correct number was: " << secretNumber << endl;
+
+    return 0;
+}
